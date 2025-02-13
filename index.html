@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All-in-One JavaScript App</title>
+    <style>
+        body { font-family: sans-serif, Poppins; margin: 30px; }
+        .section { border: 5px solid #ccc; padding: 20px; margin-bottom: 20px; }
+        textarea { width: 100%; height: 50px; }
+    </style>
+    <script type="text/javascript">
+        // Age Group Classification
+        function getAgeGroup() {
+            let age = parseInt(document.getElementById("ageInput").value);
+            let category = "";
+
+            if (age < 13) category = "Child";
+            else if (age < 20) category = "Teenager";
+            else if (age < 60) category = "Young";
+            else category = "Senior Citizen";
+
+            document.getElementById("ageResult").innerText = "Age Group: " + category;
+        }
+
+        // Simple Calculator
+        function calculate(operator) {
+            let n1 = parseFloat(document.getElementById("num1").value);
+            let n2 = parseFloat(document.getElementById("num2").value);
+            let result;
+
+            if (operator === '+') result = n1 + n2;
+            else if (operator === '-') result = n1 - n2;
+            else if (operator === '*') result = n1 * n2;
+            else if (operator === '/') result = n2 !== 0 ? n1 / n2 : "Cannot divide by zero";
+
+            document.getElementById("calcResult").innerText = "Result: " + result;
+        }
+
+        // Prime Numbers
+        function isPrime(num) {
+            if (num < 2) return false;
+            for (let i = 2; i * i <= num; i++) {
+                if (num % i === 0) return false;
+            }
+            return true;
+        }
+
+        function generatePrimes() {
+            let n = parseInt(document.getElementById("primeInput").value);
+            let primes = [], num = 2;
+            while (primes.length < n) {
+                if (isPrime(num)) primes.push(num);
+                num++;
+            }
+            document.getElementById("primeResult").innerText = "Primes: " + primes.join(", ");
+        }
+
+        // Marks Calculation
+        function computeGrade() {
+            let name = document.getElementById("studentName").value;
+            let marks = [
+                parseFloat(document.getElementById("mark1").value),
+                parseFloat(document.getElementById("mark2").value),
+                parseFloat(document.getElementById("mark3").value),
+                parseFloat(document.getElementById("mark4").value),
+                parseFloat(document.getElementById("mark5").value)
+            ];
+
+            let total = marks.reduce((sum, mark) => sum + mark, 0);
+            let avg = total / marks.length;
+            let grade = "";
+
+            if (avg >= 90) grade = "A+";
+            else if (avg >= 80) grade = "A";
+            else if (avg >= 70) grade = "B";
+            else if (avg >= 60) grade = "C";
+            else if (avg >= 50) grade = "D";
+            else if (avg >= 40) grade = "E";
+            else grade = "F";
+
+            document.getElementById("gradeResult").innerText = `Name: ${name} | Total Marks: ${total} | Grade: ${grade}`;
+        }
+
+        // Change Background Color
+        function changeColor(color) {
+            document.body.style.backgroundColor = color;
+        }
+
+        // Array Sum
+        function createInputs() {
+            let n = document.getElementById("numCount").value;
+            let inputArea = document.getElementById("inputFields");
+            inputArea.innerHTML = "";
+
+            for (let i = 0; i < n; i++) {
+                inputArea.innerHTML += `<input type="number" id="num${i}" placeholder="Number ${i + 1}"><br>`;
+            }
+            document.getElementById("sumButton").style.display = "block";
+        }
+
+        function calculateSum() {
+            let n = document.getElementById("numCount").value;
+            let numbers = [];
+
+            for (let i = 0; i < n; i++) {
+                let value = parseFloat(document.getElementById(`num${i}`).value);
+                if (!isNaN(value)) {
+                    numbers.push(value);
+                }
+            }
+
+            let sum = numbers.reduce((acc, num) => acc + num, 0);
+            document.getElementById("sumResult").innerText = "Sum: " + sum;
+        }
+
+        // Reverse a String
+        function reverseip(){
+            let input=document.getElementById("string").value;
+            let reversed=input.split("").reverse().join("");
+            document.getElementById("output").innerText="Final: "+reversed;
+        }
+
+    </script>
+</head>
+<body>
+
+    <h1>Multi-Functional JavaScript App</h1>
+
+    <div class="section">
+        <h2>Array Sum</h2>
+        <label>Enter the number of elements (N): </label>
+        <input type="number" id="numCount">
+        <button onclick="createInputs()">Submit</button>
+        <div id="inputFields"></div><br></br>
+        <button onclick="calculateSum()" style="display: none;" id="sumButton">Calculate Sum</button>
+        <p id="sumResult"></p>
+    </div>
+
+    <div class="section">
+        <h2>Reverse a String</h2>
+        <label>Enter the string: </label>
+        <input type="text" id="string">
+        <button onclick ="reverseip()">Reverse</button>
+        <p id="output"></p>
+    </div>
+
+    <div class="section">
+        <h2>Prime Numbers</h2>
+        <label>Enter N (Number of Primes): </label>
+        <input type="number" id="primeInput">
+        <button onclick="generatePrimes()">Generate</button>
+        <p id="primeResult"></p>
+    </div>
+
+    <div class="section">
+        <h2>Change Background Color</h2>
+        <button onclick="changeColor('red')">Red</button>
+        <button onclick="changeColor('blue')">Blue</button>
+        <button onclick="changeColor('green')">Green</button>
+        <button onclick="changeColor('yellow')">Yellow</button>
+        <button onclick="changeColor('white')">White</button>
+    </div>
+
+    <div class="section">
+        <h2>Age Group Classification</h2>
+        <label>Enter Age: </label>
+        <input type="number" id="ageInput">
+        <button onclick="getAgeGroup()">Check</button>
+        <p id="ageResult"></p>
+    </div>
+
+    <div class="section">
+        <h2>Age Group Classification</h2>
+        <label>Enter Age: </label>
+        <input type="number" id="ageInput">
+        <button onclick="getAgeGroup()">Check</button>
+        <p id="ageResult"></p>
+    </div>
+
+    <div class="section">
+        <h2>Calculator</h2>
+        <label>Enter Number 1: </label>
+        <input type="number" id="num1"> 
+        <label>Enter Number 2: </label>
+        <input type="number" id="num2"><br></br>
+        <button onclick="calculate('+')">+</button>
+        <button onclick="calculate('-')">-</button>
+        <button onclick="calculate('*')">*</button>
+        <button onclick="calculate('/')">/</button>
+        <p id="calcResult"></p>
+    </div>
+
+    <div class="section">
+        <h2>Marks Calculation</h2>
+        <label>Name: </label>
+        <input type="text" id="studentName"><br><br>
+
+        <label>Marks (5 subjects):</label><br>
+        <input type="number" id="mark1" placeholder="Subject 1">
+        <input type="number" id="mark2" placeholder="Subject 2">
+        <input type="number" id="mark3" placeholder="Subject 3">
+        <input type="number" id="mark4" placeholder="Subject 4">
+        <input type="number" id="mark5" placeholder="Subject 5"><br><br>
+
+        <button onclick="computeGrade()">Submit</button>
+        <p id="gradeResult"></p>
+    </div>
+
+</body>
+</html>
