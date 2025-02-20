@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Repositories</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>GitHub Repositories</h2>
+    <input type="text" id="username" placeholder="Enter GitHub username">
+    <button onclick="fetchRepos()">Fetch Repos</button>
+    <p id="status"></p>
+    <table id="repoTable">
+        <thead>
+            <tr>
+                <th>Repository Name</th>
+                <th>Description</th>
+                <th>Language</th>
+                <th>Stars</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        function fetchRepos() {
+            var username = document.getElementById("username").value.trim();
+
+            // Validate username with a regex (only allows alphanumeric and hyphens, as per GitHub username rules)
+            var usernameRegex = /^[a-zA-Z0-9-]+$/;
+            if (!usernameRegex.test(username)) {
+                document.getElementById("status").textContent = "Invalid username format.";
+                return;
+            }
+
+            var url = "https://api.github.com/users/" + username + "/repos";
+            var xhr = new XMLHttpRequest();
+            document.getElementById("status").textContent = "Fetching data...";
+
+            xhr.open("GET", url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var repos = JSON.parse(xhr.responseText);
+                    var tbody = document.querySelector("#repoTable tbody");
+                    tbody.innerHTML = ""; // Clear previous results
+
+                    repos.forEach(repo => {
+                        var row = `<tr>
+                            <td><a href="${repo.html_url}" target="_blank">${repo.name}</a></td>
+                            <td>${repo.description ? repo.description : "No description"}</td>
+                            <td>${repo.language ? repo.language : "N/A"}</td>
+                            <td>${repo.stargazers_count}</td>
+                        </tr>`;
+                        tbody.innerHTML += row;
+                    });
+
+                    document.getElementById("status").textContent = "Repositories fetched successfully.";
+                } else if (xhr.readyState === 4) {
+                    document.getElementById("status").textContent = "Error fetching repositories.";
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
